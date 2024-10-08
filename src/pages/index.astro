@@ -44,7 +44,7 @@ import Globe from "../components/Globe";
     <TimeZone />
     <Now />
     <Card
-      colSpan="md:col-span-1"
+      colSpan="md:col-span-2"
       rowSpan="md:row-span-1"
       title="Countries I visited"
       href="travel"
@@ -54,19 +54,15 @@ import Globe from "../components/Globe";
         <Globe client:load />
       </div>
     </Card>
-    <Card
-      colSpan="md:col-span-1"
-      rowSpan="md:row-span-2 flex gap-4"
-      title="Blog"
-      href="/blog"
-    />
-    <Card colSpan="md:col-span-1" rowSpan="md:row-span-1">
+    <Card colSpan="md:col-span-2" rowSpan="md:row-span-1">
       <p class="text-xs">
         © 2024-Now · Crafted with ♥️ using <a
           href="https://astro.build/"
           target="_blank"
           class="text-primary-100">Astro</a
-        >. Special thanks to <a
+        >.
+        <br />
+        Special thanks to <a
           href="https://github.com/Ladvace/astro-bento-portfolio"
           target="_blank"
           class="text-primary-100"
