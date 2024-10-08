@@ -1,6 +1,8 @@
 ---
 import Card from "./Card/index.astro";
 import { LINKS } from "../lib/constants";
+import Button from "./Button.astro";
+import { Icon } from "astro-icon/components";
 ---
 
 <Card colSpan="md:col-span-1" rowSpan="md:row-span-4">
@@ -12,25 +14,27 @@ import { LINKS } from "../lib/constants";
     </header>
     <address class="flex flex-col mt-4">
       <h2 class="text-gray-500">Contact Details</h2>
-      <p>cavallogianmarco@gmail.com</p>
+      <p>davideccia@gmail.com</p>
       <p>Italy</p>
     </address>
-    <div class="flex flex-col mt-4 w-fit">
-      <h2 class="text-gray-500">Socials</h2>
-      <ul>
-        <li>
-          <a href={LINKS.linkedin} target="_blank">Linkedin</a>
-        </li>
-        <li>
-          <a href={LINKS.github} target="_blank">Github</a>
-        </li>
-        <li>
-          <a href={LINKS.medium} target="_blank">Medium</a>
-        </li>
-        <li>
-          <a href={LINKS.discord} target="_blank">Discord</a>
-        </li>
-      </ul>
-    </div>
+    <br />
+    <a href={LINKS.github} aria-label="github profile" target="_blank">
+      <Button aria-label="github profile">
+        <Icon name="ri:github-fill" class="h-6" />
+        <span class="sr-only">GitHub Profile</span>
+      </Button>
+    </a>
+    <a href={LINKS.github} aria-label="gitlab profile" target="_blank">
+      <Button aria-label="gitlab profile">
+        <Icon name="ri:github-fill" class="h-6" />
+        <span class="sr-only">GitLab Profile</span>
+      </Button>
+    </a>
+    <a href={LINKS.linkedin} aria-label="linkedin profile" target="_blank">
+      <Button aria-label="linkedin profile">
+        <Icon name="ri:linkedin-box-fill" class="h-6" />
+        <span class="sr-only">Linkedin Profile</span>
+      </Button>
+    </a>
   </div>
 </Card>
