@@ -40,35 +40,34 @@ import Globe from "../components/Globe";
   >
     <IntroCard />
     <AboutMe />
-    <ContactsCard />
-    <TimeZone />
-    <Now />
     <Card
-      colSpan="md:col-span-2"
-      rowSpan="md:row-span-1"
-      title="Countries I visited"
-      href="travel"
-      colorText="text-neutral-900"
+        colSpan="md:col-span-1"
+        rowSpan="md:row-span-1"
+        title="Countries I visited"
+        href="travel"
+        colorText="text-neutral-900"
     >
       <div class="h-full w-full absolute inset-0 -z-10">
         <Globe client:load />
       </div>
     </Card>
+    <TimeZone />
+    <Now />
     <Card colSpan="md:col-span-2" rowSpan="md:row-span-1">
       <p class="text-xs">
-        © 2024-Now · Crafted with ♥️ using <a
-          href="https://astro.build/"
-          target="_blank"
-          class="text-primary-100">Astro</a
-        >.
-        <br />
         Special thanks to <a
           href="https://github.com/Ladvace/astro-bento-portfolio"
           target="_blank"
           class="text-primary-100"
         >
           Gianmarco</a
-        > for this template ♥️
+        > for this template
+        <br />
+        © 2024-Now · Crafted with ♥️ using <a
+          href="https://astro.build/"
+          target="_blank"
+          class="text-primary-100">Astro</a
+        >.
       </p>
     </Card>
   </main>

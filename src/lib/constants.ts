@@ -1,7 +1,7 @@
 export const LINKS = {
   github: "https://github.com/davideccia",
   gitlab: "https://gitlab.com/davideccia",
-  linkedin: "https://www.linkedin.com/in/davide-pio-ciaccia/",
+  linkedin: "https://www.linkedin.com/in/davide-ciaccia-a94a77199/",
   instagram: "https://www.instagram.com/davideccia"
 };
 
