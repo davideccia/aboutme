@@ -10,6 +10,8 @@ import { remarkReadingTime } from "./src/lib/ remark-reading-time.mjs";
 
 import svelte from "@astrojs/svelte";
 
+import node from "@astrojs/node";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://gianmarco.xyz/",
@@ -30,7 +32,9 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime],
   },
   output: "server",
-  adapter: netlify({ edgeMiddleware: true }),
+  adapter: node({
+    mode: "standalone",
+  }),
   vite: {
     assetsInclude: "**/*.riv",
   },
