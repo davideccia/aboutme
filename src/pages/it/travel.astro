@@ -1,8 +1,8 @@
 ---
-import Globe from "../components/Globe";
-import BasicLayout from "../layouts/BasicLayout.astro";
+import Globe from "../../components/Globe";
+import BasicLayout from "../../layouts/BasicLayout.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
-const indexURL = getRelativeLocaleUrl("en", "");
+const indexURL = getRelativeLocaleUrl("it", "");
 ---
 
 <script>
@@ -20,14 +20,14 @@ const indexURL = getRelativeLocaleUrl("en", "");
 </script>
 
 <BasicLayout
-  title="Davide Ciaccia - Visited Countries"
-  description="3D globe"
+  title="Davide Ciaccia - Nazioni Visitate"
+  description="Globo 3D"
   page="travel"
 >
   <a
     href={indexURL}
     class="text-white absolute bg-neutral-900 hover:bg-neutral-800 top-4 left-4 px-4 py-2 border-1 border-solid border-neutral-600 rounded-lg"
-    >Back</a
+    >Torna indietro</a
   >
 
   <Globe client:load />

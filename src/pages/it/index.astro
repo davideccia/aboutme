@@ -1,19 +1,19 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card/index.astro";
-import IntroCard from "../components/en/IntroCard.astro";
-import ContactsCard from "../components/en/ContactsCard.astro";
-import TimeZone from "../components/en/TimeZoneCard.astro";
-import AboutMe from "../components/en/AboutMe.astro";
-import Now from "../components/en/Now.astro";
-import Globe from "../components/Globe";
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card/index.astro";
+import IntroCard from "../../components/it/IntroCard.astro";
+import ContactsCard from "../../components/it/ContactsCard.astro";
+import TimeZone from "../../components/it/TimeZoneCard.astro";
+import AboutMe from "../../components/it/AboutMe.astro";
+import Now from "../../components/it/Now.astro";
+import Globe from "../../components/Globe";
 import { getRelativeLocaleUrl } from "astro:i18n";
-const indexURL = getRelativeLocaleUrl("it", "");
+const indexURL = getRelativeLocaleUrl("en", "");
 ---
 
 <script>
   import { stagger, spring, timeline, type TimelineDefinition } from "motion";
-  import { loaderAnimation } from "../lib/constants";
+  import { loaderAnimation } from "../../lib/constants";
   const cards = document.querySelectorAll(".card");
 
   const sequence = [
@@ -57,15 +57,15 @@ const indexURL = getRelativeLocaleUrl("it", "");
     <Now />
     <Card colSpan="md:col-span-2" rowSpan="md:row-span-1">
       <p class="text-xs">
-        Special thanks to <a
+        Un grazie speciale a <a
           href="https://github.com/Ladvace/astro-bento-portfolio"
           target="_blank"
           class="text-primary-100"
         >
           Gianmarco</a
-        > for this template
+        > per questo template
         <br />
-        © 2024-Now · Crafted with ♥️ using <a
+        © 2024-Adesso · Creato con il ♥️ utilizzando <a
           href="https://astro.build/"
           target="_blank"
           class="text-primary-100">Astro</a
@@ -73,7 +73,7 @@ const indexURL = getRelativeLocaleUrl("it", "");
       </p>
     </Card>
     <Card colSpan="md:col-span-1" rowSpan="md:row-span-1" href={indexURL}>
-      🇮🇹 Contenuto in Italiano
+      🌍 English content
     </Card>
   </main>
 </Layout>

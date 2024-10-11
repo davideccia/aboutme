@@ -1,11 +1,11 @@
 ---
-import { getCurrentTimeInItaly, formatTimeForItaly } from "../lib/helpers";
-import Card from "./Card/index.astro";
+import { getCurrentTimeInItaly, formatTimeForItaly } from "../../lib/helpers";
+import Card from "../Card/index.astro";
 ---
 
 <script>
   import { onCleanup, onMount } from "solid-js";
-  import { formatTimeForItaly } from "../lib/helpers";
+  import { formatTimeForItaly } from "../../lib/helpers";
 
   let interval: ReturnType<typeof setInterval>;
 

@@ -1,0 +1,60 @@
+---
+import Card from "../Card/index.astro";
+import { Image } from "astro:assets";
+import { LINKS } from "../../lib/constants";
+import Button from "../Button.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Card colSpan="md:col-span-3" rowSpan="md:row-span-4">
+  <div class="flex w-full h-full">
+    <div class="flex flex-col justify-between md:max-h-[300px] gap-4">
+      <div class="flex flex-col h-full">
+        <h6 class="text-sm font-light m-0 text-gray-500">Ciao!</h6>
+        <p class="m-0 font-light text-xl">
+          Sono <b class="font-bold">Davide Ciaccia</b>, mi occupo di sviluppo
+          software.
+          <br />
+          Dal 2020, quando la mia carriera è iniziata, ho sempre lavorato dietro
+          le quinte dello sviluppo web.
+          <br />
+          Ho anche avuto modo di imparare e mettere in pratica processi DevOps.
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <a href={LINKS.github} aria-label="gitlab profile" target="_blank">
+          <Button aria-label="gitlab profile">
+            <Icon name="ri:gitlab-fill" class="h-6" />
+            <span class="sr-only">Profilo GitLab</span>
+          </Button>
+        </a>
+        <a href={LINKS.github} aria-label="github profile" target="_blank">
+          <Button aria-label="github profile">
+            <Icon name="ri:github-fill" class="h-6" />
+            <span class="sr-only">Profilo GitHub</span>
+          </Button>
+        </a>
+        <a href={LINKS.linkedin} aria-label="linkedin profile" target="_blank">
+          <Button aria-label="linkedin profile">
+            <Icon name="ri:linkedin-box-fill" class="h-6" />
+            <span class="sr-only">Profilo Linkedin</span>
+          </Button>
+        </a>
+      </div>
+    </div>
+    <Image
+      width="300"
+      height="300"
+      src="/me.jpg"
+      class="w-auto max-h-[300px] select-none absolute right-[-110px] bottom-[-20px] z-[-1] opacity-50 md:opacity-100 md:relative md:right-auto md:bottom-auto md:z-auto pointer-events-none"
+      alt="my dumb face"
+    />
+  </div>
+</Card>
+
+<style>
+  img :global(img),
+  img {
+    border-radius: 50%;
+  }
+</style>

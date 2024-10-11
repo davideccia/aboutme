@@ -14,14 +14,15 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://gianmarco.xyz/",
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "it"],
+  },
+  site: "https://aboutme.davideccia.click/",
   integrations: [
     sitemap(),
     robotsTxt({
-      sitemap: [
-        "https://gianmarco.xyz/sitemap-index.xml",
-        "https://gianmarco.xyz/sitemap-0.xml",
-      ],
+      sitemap: [],
     }),
     solidJs(),
     UnoCSS({ injectReset: true }),
