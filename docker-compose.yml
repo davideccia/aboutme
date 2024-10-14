@@ -1,0 +1,5 @@
+services:
+  aboutme-site:
+    build: .
+    ports:
+      - "30000:80"

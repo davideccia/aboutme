@@ -19,6 +19,10 @@ export default defineConfig({
     locales: ["en", "it"],
   },
   site: "https://aboutme.davideccia.click/",
+  server: {
+    host: true,
+    port: 80,
+  },
   integrations: [
     sitemap(),
     robotsTxt({
