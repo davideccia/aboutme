@@ -20,8 +20,8 @@ export default defineConfig({
   },
   site: "https://aboutme.davideccia.click/",
   server: {
-    host: true,
-    port: 80,
+    host: false,
+    port: 30000,
   },
   integrations: [
     sitemap(),
