@@ -1,0 +1,61 @@
+---
+import experiences from "../collections/experiences.json";
+import AboutExperience from "../components/about-experience.astro";
+import PageHeading from "../components/page-heading.astro";
+import Layout from "../layouts/main.astro";
+---
+
+<Layout title="About Me">
+  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
+    <PageHeading
+      title="About Me"
+      description="Deployed this portfolio using Amazon Web Services and built with Astro, this is my personal website."
+    />
+    <img src="/assets/images/about.jpg" class="relative z-30 w-full my-10 rounded-xl" />
+    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Bio</h2>
+    <p class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg">   
+      I am a Senior Software Developer with extensive experience in building backend solutions for enterprise web applications, with a strong focus on healthcare, public services, and custom software development. Over the course of my career, I've honed my expertise in PHP, particularly on the Laravel framework (with MySQL and PostreSQL), and have worked with modern frontend technologies like Nuxt.js using JavaScript and TypeScript.
+    </p>
+    </br>
+    <p class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg">   
+      Additionally, I've leveraged Golang and Bash scripting for various development tasks. I am proficient in deploying applications using Docker and AWS, ensuring seamless and scalable solutions.
+    </p>
+    </br>
+    <p class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg">   
+      Starting as a Junior Backend Developer, I have grown into my current role, where I continue to drive improvements in software performance and efficiency. My work is guided by a focus on delivering innovative, high-quality solutions, and I actively contribute to optimizing workflows and enhancing system performance (for example using Elasticsearch and MongoDB).
+    </p>
+    </br>
+    <p class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg">   
+    I am experienced in using Git and GitLab for version control and code release management, ensuring collaboration and consistency across teams.
+    </p>
+    </br>
+    <h2 class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200">
+      Experience
+    </h2>
+    <div class="px-5 py-10">
+      {
+        experiences.map((experience) => {
+          return (
+            <div class="pb-10 border-l border-gray-200 last:border-l-0 dark:border-neutral-700">
+              <AboutExperience
+                dates={experience.dates}
+                role={experience.role}
+                company={experience.company}
+                description={experience.description}
+                logo={experience.logo},
+                technologies={experience.technologies}
+              />
+            </div>
+          )
+        })
+      }
+    </div>
+
+    <h2 class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200">Let's Connect</h2>
+    <p
+      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+    >
+      Send me an <a href="mailto:davideccia@gmail.com" class="text-indigo-600 underline">email</a> and I'll be sure to get back to you.
+    </p>
+  </section>
+</Layout>

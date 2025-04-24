@@ -1,0 +1,33 @@
+---
+const { logo, dates, role, company, description, technologies } = Astro.props;
+---
+
+<div class="relative flex flex-col justify-start pl-12">
+  <div
+    class="absolute top-0 left-0 z-40 flex items-center justify-center -translate-x-1/2 bg-white border rounded-full dark:bg-neutral-950 w-14 h-14 border-neutral-300 dark:border-neutral-700"
+  >
+    <img src={logo} alt={company} class="w-10 h-10 rounded-full" />
+  </div>
+
+  <p
+    class="text-xs uppercase text-neutral-400 dark:text-neutral-500 trackign-widest"
+  >
+    {dates}
+  </p>
+  <h3 class="my-1 text-lg font-bold dark:text-neutral-100">{role}</h3>
+  <p class="mb-1 text-sm font-medium dark:text-neutral-300">{company}</p>
+  <p class="text-sm font-light text-neutral-600 dark:text-neutral-400">
+    {description}
+  </p>
+  {technologies && technologies.length > 0 && (
+    <div class="space-x-4 mt-4 w-14 h-14 flex items-center shadow-md border-neutral-300 dark:border-neutral-700">
+      {technologies.map((path: string, index: number) => (
+        <img
+          src={path}
+          alt={`Technology logo ${index + 1}`}
+          class="object-contain w-full h-full"
+        />
+      ))}
+    </div>
+  )}
+</div>

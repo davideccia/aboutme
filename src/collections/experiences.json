@@ -1,0 +1,38 @@
+[
+	{
+		"dates": "Feb 2023 · Now",
+		"role": "Back-end Engineer",
+		"company": "Weconstudio srl",
+		"description": "Server side software development, research and development, features enhancements and maintenance.",
+		"logo": "/assets/images/experiences/weconstudio.png",
+		"technologies": [
+			"/assets/icons/laravel.png",
+			"/assets/icons/elasticsearch.png",
+			"/assets/icons/nuxt-js.png",
+			"/assets/icons/js.png",
+			"/assets/icons/typescript.png",
+			"/assets/icons/python.png",
+			"/assets/icons/bash.png",
+			"/assets/icons/mysql.png",
+			"/assets/icons/postgre.png",
+			"/assets/icons/redis.png",
+			"/assets/icons/mongodb.png",
+			"/assets/icons/git.png",
+			"/assets/icons/gitlab.png"
+		]
+	},
+	{
+		"dates": "Oct 2021 · Feb 2023",
+		"role": "Back-end Engineer",
+		"company": "SDS srl",
+		"description": "Server side software development and tools management.",
+		"logo": "/assets/images/experiences/sds.png",
+		"technologies": [
+			"/assets/icons/laravel.png",
+			"/assets/icons/bash.png",
+			"/assets/icons/mysql.png",
+			"/assets/icons/git.png",
+			"/assets/icons/gitlab.png"
+		]
+	}
+]
