@@ -7,16 +7,17 @@
 		"logo": "/assets/images/experiences/weconstudio.png",
 		"technologies": [
 			"/assets/icons/laravel.png",
+			"/assets/icons/redis.png",
+			"/assets/icons/mysql.png",
+			"/assets/icons/postgre.png",
 			"/assets/icons/elasticsearch.png",
+			"/assets/icons/typesense.png",
+			"/assets/icons/mongodb.png",
 			"/assets/icons/nuxt-js.png",
 			"/assets/icons/js.png",
 			"/assets/icons/typescript.png",
 			"/assets/icons/python.png",
 			"/assets/icons/bash.png",
-			"/assets/icons/mysql.png",
-			"/assets/icons/postgre.png",
-			"/assets/icons/redis.png",
-			"/assets/icons/mongodb.png",
 			"/assets/icons/git.png",
 			"/assets/icons/gitlab.png"
 		]
