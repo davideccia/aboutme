@@ -1,4 +1,4 @@
 # aboutme repo
 
-> [!NOTE] Thanks To
-> https://github.com/Gothsec/Portfolio
+> [!NOTE] Forked from
+> [Oscar Hernandez](https://github.com/Gothsec/Portfolio)
