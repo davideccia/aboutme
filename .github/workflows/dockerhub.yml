@@ -25,14 +25,14 @@ jobs:
           build-args: |
             UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}
       
-      //- name: Send email
-      //  uses: dawidd6/action-send-mail@v3
-      //  with:
-      //    server_address: smtp.gmail.com
-      //    server_port: 587
-      //    username: ${{ secrets.MAIL_USERNAME }}
-      //    password: ${{ secrets.MAIL_PASSWORD }}
-      //    subject: Deploy completato - ${{ github.sha }}
-      //    to: ${{ secrets.MAIL_RECIPIENT }}
-      //    from: GitHub Actions
-      //    body: Immagine pushata su DockerHub
+      #- name: Send email
+      #  uses: dawidd6/action-send-mail@v3
+      #  with:
+      #    server_address: smtp.gmail.com
+      #    server_port: 587
+      #    username: ${{ secrets.MAIL_USERNAME }}
+      #    password: ${{ secrets.MAIL_PASSWORD }}
+      #    subject: Deploy completato - ${{ github.sha }}
+      #    to: ${{ secrets.MAIL_RECIPIENT }}
+      #    from: GitHub Actions
+      #    body: Immagine pushata su DockerHub
