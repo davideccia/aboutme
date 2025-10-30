@@ -4,7 +4,6 @@ interface Props {
 }
 
 const {title} = Astro.props;
-const dev_mode = import.meta.env.DEV;
 const umami_id = import.meta.env.UMAMI_SITE_ID;
 ---
 
@@ -27,7 +26,7 @@ const umami_id = import.meta.env.UMAMI_SITE_ID;
             is:inline
             defer
             src="https://cloud.umami.is/script.js"
-            data-website-id={dev_mode === true ? "" : umami_id}></script>
+            data-website-id={umami_id}></script>
 </head>
 <body class="bg-[--background] sm:px-28 lg:px-20 px-9">
 <slot/>
