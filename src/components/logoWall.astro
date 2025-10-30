@@ -1,0 +1,76 @@
+---
+const technologies = [
+  { icon: "docker", label: "Docker" },
+  { icon: "laravel", label: "Laravel" },
+  { icon: "nuxt", label: "Nuxt" },
+  { icon: "astro", label: "Astro" },
+  { icon: "aws", label: "AWS" },
+  { icon: "vue", label: "Vue" },
+  { icon: "php", label: "PHP" },
+  { icon: "typeScript", label: "TypeScript" },
+  { icon: "javaScript", label: "JavaScript" },
+  { icon: "python", label: "Python" },
+  { icon: "go", label: "Go" },
+  { icon: "mysql", label: "MySQL" },
+  { icon: "postgresql", label: "PostgreSQL" },
+  { icon: "mss", label: "MSS" },
+  { icon: "redis", label: "Redis" },
+  { icon: "typesense", label: "Typesense" },
+  { icon: "elastic", label: "Elastic Stack" },
+  { icon: "git", label: "Git" },
+  { icon: "docker", label: "Docker" },
+  { icon: "linux", label: "Linux" },
+  { icon: "bash", label: "Bash" },
+];
+---
+
+<div class="relative overflow-x-hidden py-8">
+  <div
+    class="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[var(--background)] to-transparent z-20"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[var(--background)] to-transparent z-20"
+  >
+  </div>
+
+  <div class="flex animate-scroll hover:animate-paused gap-12 md:gap-20 w-max">
+    {
+      technologies.map((icon) => (
+        <div class="flex items-center gap-2 group transition-all duration-300">
+          <img
+            src={`/svg/${icon.icon}.svg`}
+            alt={icon.label}
+            class="h-7 w-auto object-contain transition-transform group-hover:scale-110 opacity-60"
+            width="30"
+            height="30"
+            loading="lazy"
+          />
+          <span class="text-lg font-medium text-[var(--white-icon)]">
+            {icon.label}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style is:global>
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-scroll {
+    animation: scroll 60s linear infinite;
+  }
+
+  @media (min-width: 768px) {
+    .animate-scroll {
+      animation-duration: 50s;
+    }
+  }
+</style>
