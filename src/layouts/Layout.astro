@@ -4,7 +4,7 @@ interface Props {
 }
 
 const {title} = Astro.props;
-const umami_id = import.meta.env.UMAMI_SITE_ID;
+const umamiID = import.meta.env.UMAMI_WEBSITE_ID;
 ---
 
 <!doctype html>
@@ -19,14 +19,12 @@ const umami_id = import.meta.env.UMAMI_SITE_ID;
     <meta property="og:url" content="https://aboutme.davideccia.click"/>
     <meta property="og:type" content="website"/>
     <meta property="og:site_name" content="Davide Ciaccia Portfolio"/>
-
-    <title>{title}</title>
-
     <script
-            is:inline
             defer
             src="https://cloud.umami.is/script.js"
-            data-website-id={umami_id}></script>
+            data-website-id={umamiID}></script>
+
+    <title>{title}</title>
 </head>
 <body class="bg-[--background] sm:px-28 lg:px-20 px-9">
 <slot/>

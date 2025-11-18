@@ -1,6 +1,4 @@
 FROM node:22-alpine AS builder
-ARG UMAMI_WEBSITE_ID
-ENV PUBLIC_UMAMI_WEBSITE_ID=$UMAMI_WEBSITE_ID
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
