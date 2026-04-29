@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const CategoryIcons = {
-  "Backend Development": (
+  "Backend/Frontend": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -27,18 +27,17 @@ const SkillsList = () => {
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   const skills = {
-    "Backend Development": [
-      "ER Diagrams",
+    "Backend/Frontend": [
       "Database Design",
       "API Design",
-      "RESTful APIs",
-      "Microservices",
+      "Useful interfaces",
+      "Design patterns",
     ],
     "DevOps": [
       "Infrastructure management and configuration",
       "Software operations and maintenance",
-      "CICD"
-    ]
+      "CICD",
+    ],
   };
 
   const toggleItem = (item: string) => {
