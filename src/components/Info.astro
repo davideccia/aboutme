@@ -1,0 +1,65 @@
+---
+import { mdiIconMap, type MdiIconName } from '../lib/mdi-icons';
+
+interface Props {
+  href: string;
+  iconName: MdiIconName | 'linkedin' | 'codeberg';
+}
+
+const { href, iconName } = Astro.props;
+const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdiIconMap[iconName];
+---
+
+<a href={href}
+  ><div class="parent">
+    {
+      iconName === 'linkedin' ? (
+        <img
+          src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/linkedin.svg"
+          aria-hidden="true"
+          class="info-component-icon linkedin"
+          height={14}
+          width={14}
+        />
+      ) : iconName === 'codeberg' ? (
+        <img
+          src="https://cdn.simpleicons.org/codeberg"
+          aria-hidden="true"
+          class="info-component-icon codeberg"
+          height={14}
+          width={14}
+        />
+      ) : (
+        <svg
+          class:list={['info-component-icon', 'mdi-icon', iconName === 'github' && 'mdi-icon--github']}
+          viewBox="0 0 24 24"
+          height={12}
+          width={12}
+          aria-hidden="true"
+        >
+          <path d={iconPath} />
+        </svg>
+      )
+    }<slot />
+  </div>
+</a>
+
+<style>
+  .parent {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-component-icon {
+    padding-right: 0.25em;
+  }
+
+  .mdi-icon {
+    fill: currentColor;
+  }
+
+  /* this isn't great but i didn't love the standard padding on the github logo icon */
+  .mdi-icon--github {
+    padding-right: 0.3em;
+  }
+</style>

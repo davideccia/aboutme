@@ -1,0 +1,90 @@
+---
+export interface Props {
+  iconUrl: string; // url icona tecnologia, es. logo Laravel, Nuxt...
+  name: string; // testo label a sinistra
+  level: number | string; // competenza su scala 1-5, oppure un valore libero (es. "A+", "98%")
+  color?: string; // colore accento, default calcolato dal livello
+}
+
+const { iconUrl, name, level, color } = Astro.props as Props;
+
+function ratingColor(r: number | string): string {
+  const n = typeof r === 'number' ? r : parseFloat(r as string);
+  if (isNaN(n)) return '#4c1';
+  if (n >= 4.5) return '#4c1';
+  if (n >= 3.5) return '#97ca00';
+  if (n >= 2.5) return '#dfb317';
+  if (n >= 1.5) return '#fe7d37';
+  return '#e05d44';
+}
+
+const accent = color ?? ratingColor(level);
+
+// scala di competenza a 5 pallini quando level è un numero tra 0 e 5; altrimenti mostriamo il valore così com'è
+const isProficiencyScale = typeof level === 'number' && level >= 0 && level <= 5;
+const dots = isProficiencyScale ? [1, 2, 3, 4, 5] : [];
+---
+
+<span class="badge" style={`--badge-accent:${accent}`}>
+  <img class="badge-icon" src={iconUrl} alt="" width="12" height="12" loading="lazy" />
+  <span class="badge-title">{name}</span>
+  {
+    isProficiencyScale ? (
+      <span class="badge-dots" role="img" aria-label={`Livello di competenza: ${level} su 5`}>
+        {dots.map(dot => (
+          <span class="badge-dot" data-filled={dot <= (level as number)} />
+        ))}
+      </span>
+    ) : (
+      <span class="badge-level">{level}</span>
+    )
+  }
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.2em 0.55em;
+    border: 1px solid var(--light-grey, #ccc);
+    border-radius: 1em;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: var(--darker-grey, #333);
+    background: var(--badge-bg, #fff);
+  }
+
+  .badge-icon {
+    display: block;
+    flex: none;
+  }
+
+  .badge-title {
+    white-space: nowrap;
+  }
+
+  .badge-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  .badge-dot {
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    border-radius: 50%;
+    background-color: var(--light-grey, #ccc);
+  }
+
+  .badge-dot[data-filled='true'] {
+    background-color: var(--badge-accent);
+  }
+
+  .badge-level {
+    font-variant-numeric: tabular-nums;
+    color: var(--badge-accent);
+    font-weight: 600;
+  }
+</style>

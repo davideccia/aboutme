@@ -1,0 +1,4 @@
+/* Site is dark on screen, but always prints in light mode regardless of the
+   viewer's OS color scheme preference. */
+@import 'github-markdown-css/github-markdown-dark.css' screen;
+@import 'github-markdown-css/github-markdown-light.css' print;
