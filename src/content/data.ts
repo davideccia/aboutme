@@ -61,6 +61,7 @@ const all = {
     { name: 'Goravel', icon: 'https://avatars.githubusercontent.com/u/93197157?s=200&v=4', level: 3 },
   ],
   techonologiesStack: [
+    { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/aws.svg', level: 3 },
     { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg', level: 5 },
     { name: 'PHP', icon: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/php.svg', level: 5 },
     {
