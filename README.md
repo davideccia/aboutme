@@ -1,57 +1,82 @@
-# Astro Resume Minimal Template
+# aboutme
 
-A minimal print-friendly resume template with GitHub Markdown-inspired styling. Built with [Astro](https://astro.build/) and styled primarily with [`github-markdown-css`](https://github.com/sindresorhus/github-markdown-css) and [GitHub Octicons](https://primer.style/octicons/).
-
-> [!IMPORTANT]
-> **Disclaimer:** The example resume shipped with this template is placeholder content built around a fictional character. This project is not affiliated with, endorsed by, or sponsored by the series or any of its respective rights holders, and the character's name is used here only to illustrate how the template renders. All employers, schools, dates, accomplishments, contact details, and links in the example are invented, and every placeholder URL and email address points at `example.com`. Replace all of it with your own information before publishing your resume.
-
-## Getting Started
-
-1. Check out the [Astro docs](https://docs.astro.build/en/install-and-setup/#prerequisites) for prerequisites (e.g., Node.js requirements)
-
-2. Edit the content in the `src/content` directory. The Zod schemas in `src/content.config.ts` describe the frontmatter for the Markdown files in `src/content/projects` and `src/content/work`.
+A single-page, print-friendly resume site built with [Astro](https://astro.build/), styled with [`github-markdown-css`](https://github.com/sindresorhus/github-markdown-css). Content lives in typed Markdown collections and a small data file, so updating the resume is a content change, not a layout change — and the same site can be exported straight to a tagged, accessible PDF.
 
 > [!NOTE]
-> The `src/content/projects` directory corresponds to the "Selected Projects" section of your resume. When Astro scans for Markdown files in this directory, the files are sorted by file name prior to rendering.
->
-> The `src/content/work` directory corresponds to the "Experience" section of your resume. When Astro scans for Markdown files in this directory, the files are sorted by the `period` field in the frontmatter prior to rendering. The file name has **no** impact on how these files are rendered in the final output.
+> This repository is based on [`kanadgupta/astro-resume-minimal-template`](https://github.com/kanadgupta/astro-resume-minimal-template) and populated with my own résumé content.
 
-3. Install the dependencies and run the development server to preview your content:
+## Features
+
+- **Content-driven** — Experience, Projects, and Education are edited as data (Markdown frontmatter + a typed `data.ts` file), not by touching page markup.
+- **Schema-validated content** — Astro content collections with Zod schemas catch malformed frontmatter (bad icon names, unparsable date ranges) at build/check time.
+- **Icon system** — any [Material Design Icon](https://pictogrammers.com/library/mdi/) name works in project frontmatter out of the box, resolved against a generated icon map.
+- **One-command PDF export** — a Playwright script renders the live page to a tagged, accessible PDF, named with the date and commit SHA it was built from.
+- **Print-aware styling** — a single global stylesheet handles both the on-screen layout and print output.
+
+## Getting started
+
+Prerequisites: Node.js (see [Astro's requirements](https://docs.astro.build/en/install-and-setup/#prerequisites)) and [pnpm](https://pnpm.io/).
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
-4. That's it! All of the main markup and styling is in `src/pages/index.astro` — feel free to tweak it as you see fit.
+The site is served at `localhost:4321`.
 
-## Generating a PDF Export
+## Editing content
 
-To generate a PDF export of your resume:
+Resume content lives under `src/content/`, not in `src/pages/index.astro` (that file holds layout and styling only).
 
-1. (Optional, but recommended) Commit any changes so your branch is clean. The current commit SHA will be appended to the file name (e.g., `pdf-exports/resume-2026-07-06-3d5e64f.pdf`), so this is a good way to ensure that the file name corresponds to your actual changes.
+| Collection                     | Section     | Notes                                                                                                |
+| :------------------------------ | :---------- | :---------------------------------------------------------------------------------------------------- |
+| `src/content/work/`             | Experience  | Sorted by parsed `period.end` (reverse chronological); file name doesn't affect order.                |
+| `src/content/personal_projects/`| Projects → Personal | Sorted by file name — hence the `NN-slug.md` naming.                                        |
+| `src/content/copyright_projects/`| Projects → Copyright | Same schema and sorting as personal projects.                                             |
+| `src/content/summary.md`        | Summary     | Rendered directly as prose.                                                                          |
+| `src/content/data.ts`           | Header, Stack, Education | Contact info, skill badges (with a 1-5 proficiency level), and education entries.       |
 
-2. Serve the website at `localhost:4321` (either via the dev or build preview server)
+> [!NOTE]
+> The `work` collection's `period` field (e.g. `"Oct 2024 - Present"`) must use a literal hyphen separator — it's parsed and validated into start/end dates for sorting. `Present` resolves to today's date.
 
-3. Run the following command:
+Project frontmatter accepts an `icon` field with any name from the [MDI icon library](https://pictogrammers.com/library/mdi/) (kebab-case, e.g. `github`, `map-marker`); the schema's enum is generated from that library automatically.
 
+After editing content, run:
+
+```sh
+pnpm run check
 ```
-npm run build:pdf
-```
 
-A new PDF will be created in the `pdf-exports` directory.
+This runs `astro check` (types and content schema validation) plus a Prettier format check — it's the correctness gate for any content or component change.
+
+## Generating a PDF export
+
+1. Commit your changes first, if you want the PDF's file name to reflect them — the current commit SHA is baked into it (e.g. `pdf-exports/resume-2026-09-03-a990ede.pdf`).
+2. Serve the site at `localhost:4321` via `pnpm run dev` or `pnpm run build && pnpm run preview`.
+3. Run:
+
+   ```sh
+   pnpm run build:pdf
+   ```
+
+This installs Playwright's bundled Chromium (if needed) and writes a tagged, accessible PDF into `pdf-exports/`.
 
 ## Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command             | Action                                                            |
+| :------------------- | :------------------------------------------------------------------ |
+| `pnpm install`       | Install dependencies                                               |
+| `pnpm run dev`       | Start the local dev server at `localhost:4321`                      |
+| `pnpm run build`     | Build the production site to `./dist/`                              |
+| `pnpm run preview`   | Preview a production build locally                                  |
+| `pnpm run check`     | Run `astro check` (types/content schemas) + `prettier . --check`    |
+| `pnpm run build:pdf` | Install Playwright's Chromium, then generate a PDF export           |
 
-| Command           | Action                                       |
-| :---------------- | :------------------------------------------- |
-| `npm install`     | Installs dependencies                        |
-| `npm run dev`     | Starts local dev server at `localhost:4321`  |
-| `npm run build`   | Build your production site to `./dist/`      |
-| `npm run preview` | Preview your build locally, before deploying |
-| `npm run check`   | Check for formatting/type/etc. errors        |
+There is no test suite; `pnpm run check` is the correctness gate.
+
+## Deployment
+
+This project deploys to AWS Amplify (`amplify.yml`): `pnpm install --frozen-lockfile` then `pnpm run build`, publishing the `dist/` directory.
 
 ## License
 
