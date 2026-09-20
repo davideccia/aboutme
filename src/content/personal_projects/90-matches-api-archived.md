@@ -1,5 +1,5 @@
 ---
-title: Matches API
+title: Matches API (archived)
 icon: boxing-glove
 link: https://codeberg.org/davideccia/matches-api
 stack: ['Java', 'Spring Boot', 'PostgreSQL', 'WebSocket']

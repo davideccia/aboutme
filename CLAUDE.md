@@ -17,11 +17,8 @@ Package manager is **pnpm** (`pnpm-lock.yaml` / `pnpm-workspace.yaml` present).
 | `pnpm run build`     | Build production site to `./dist/`                              |
 | `pnpm run preview`   | Preview a production build locally                               |
 | `pnpm run check`     | Run `astro check` (types/content schemas) + `prettier . --check` |
-| `pnpm run build:pdf` | Install Playwright's Chromium, then run `bin/build-pdf.ts`       |
 
 There is no test suite. `pnpm run check` is the correctness gate — run it after any content or component change.
-
-`pnpm run build:pdf` requires the site to already be served at `localhost:4321` (via `dev` or `preview`); it navigates there with Playwright and writes `pdf-exports/resume-<date>-<short-sha>.pdf`. The commit SHA is baked into the file name, so commit changes first if the export needs to match a specific state.
 
 ## Architecture
 

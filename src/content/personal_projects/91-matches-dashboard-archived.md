@@ -1,5 +1,5 @@
 ---
-title: Matches Dashboard
+title: Matches Dashboard (archived)
 icon: view-dashboard
 link: https://codeberg.org/davideccia/matches-dashboard
 stack: ['Vue', 'Nuxt', 'TypeScript', 'Tailwind CSS']

@@ -10,12 +10,12 @@ const { iconUrl, name, level, color } = Astro.props as Props;
 
 function ratingColor(r: number | string): string {
   const n = typeof r === 'number' ? r : parseFloat(r as string);
-  if (isNaN(n)) return '#4c1';
-  if (n >= 4.5) return '#4c1';
-  if (n >= 3.5) return '#97ca00';
-  if (n >= 2.5) return '#dfb317';
-  if (n >= 1.5) return '#fe7d37';
-  return '#e05d44';
+  if (isNaN(n)) return '#4c9a6a';
+  if (n >= 4.5) return '#4c9a6a';
+  if (n >= 3.5) return '#8faf5c';
+  if (n >= 2.5) return '#c6a24d';
+  if (n >= 1.5) return '#c97d4a';
+  return '#c15c51';
 }
 
 const accent = color ?? ratingColor(level);
@@ -47,12 +47,12 @@ const dots = isProficiencyScale ? [1, 2, 3, 4, 5] : [];
     align-items: center;
     gap: 0.4em;
     padding: 0.2em 0.55em;
-    border: 1px solid var(--light-grey, #ccc);
-    border-radius: 1em;
+    border: 1px solid var(--color-border, #ccc);
+    border-radius: var(--radius-sm, 6px);
     font-size: 0.95em;
     line-height: 1.5;
-    color: var(--darker-grey, #333);
-    background: var(--badge-bg, #fff);
+    color: var(--color-text, #333);
+    background: transparent;
   }
 
   .badge-icon {
@@ -75,7 +75,7 @@ const dots = isProficiencyScale ? [1, 2, 3, 4, 5] : [];
     width: 0.4em;
     height: 0.4em;
     border-radius: 50%;
-    background-color: var(--light-grey, #ccc);
+    background-color: var(--color-border, #ccc);
   }
 
   .badge-dot[data-filled='true'] {

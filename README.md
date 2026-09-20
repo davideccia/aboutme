@@ -1,6 +1,6 @@
 # aboutme
 
-A single-page, print-friendly resume site built with [Astro](https://astro.build/), styled with [`github-markdown-css`](https://github.com/sindresorhus/github-markdown-css). Content lives in typed Markdown collections and a small data file, so updating the resume is a content change, not a layout change — and the same site can be exported straight to a tagged, accessible PDF.
+A single-page, print-friendly resume site built with [Astro](https://astro.build/), styled with [`github-markdown-css`](https://github.com/sindresorhus/github-markdown-css). Content lives in typed Markdown collections and a small data file, so updating the resume is a content change, not a layout change.
 
 > [!NOTE]
 > This repository is based on [`kanadgupta/astro-resume-minimal-template`](https://github.com/kanadgupta/astro-resume-minimal-template) and populated with my own résumé content.
@@ -10,7 +10,6 @@ A single-page, print-friendly resume site built with [Astro](https://astro.build
 - **Content-driven** — Experience, Projects, and Education are edited as data (Markdown frontmatter + a typed `data.ts` file), not by touching page markup.
 - **Schema-validated content** — Astro content collections with Zod schemas catch malformed frontmatter (bad icon names, unparsable date ranges) at build/check time.
 - **Icon system** — any [Material Design Icon](https://pictogrammers.com/library/mdi/) name works in project frontmatter out of the box, resolved against a generated icon map.
-- **One-command PDF export** — a Playwright script renders the live page to a tagged, accessible PDF, named with the date and commit SHA it was built from.
 - **Print-aware styling** — a single global stylesheet handles both the on-screen layout and print output.
 
 ## Getting started
@@ -49,18 +48,6 @@ pnpm run check
 
 This runs `astro check` (types and content schema validation) plus a Prettier format check — it's the correctness gate for any content or component change.
 
-## Generating a PDF export
-
-1. Commit your changes first, if you want the PDF's file name to reflect them — the current commit SHA is baked into it (e.g. `pdf-exports/resume-2026-09-03-a990ede.pdf`).
-2. Serve the site at `localhost:4321` via `pnpm run dev` or `pnpm run build && pnpm run preview`.
-3. Run:
-
-   ```sh
-   pnpm run build:pdf
-   ```
-
-This installs Playwright's bundled Chromium (if needed) and writes a tagged, accessible PDF into `pdf-exports/`.
-
 ## Commands
 
 | Command             | Action                                                            |
@@ -70,7 +57,6 @@ This installs Playwright's bundled Chromium (if needed) and writes a tagged, acc
 | `pnpm run build`     | Build the production site to `./dist/`                              |
 | `pnpm run preview`   | Preview a production build locally                                  |
 | `pnpm run check`     | Run `astro check` (types/content schemas) + `prettier . --check`    |
-| `pnpm run build:pdf` | Install Playwright's Chromium, then generate a PDF export           |
 
 There is no test suite; `pnpm run check` is the correctness gate.
 

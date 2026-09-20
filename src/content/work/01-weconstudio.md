@@ -1,6 +1,6 @@
 ---
 title: Software Engineer
-company: Weconstudio srl
+company: Weconstudio s.r.l.
 period: Feb 2023 - Present
 ---
 
