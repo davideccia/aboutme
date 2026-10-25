@@ -10,13 +10,13 @@ This is a single-page, print-friendly Astro resume site, styled with `github-mar
 
 Package manager is **pnpm** (`pnpm-lock.yaml` / `pnpm-workspace.yaml` present).
 
-| Command             | Action                                                          |
-| :------------------- | :--------------------------------------------------------------- |
-| `pnpm install`       | Install dependencies                                            |
-| `pnpm run dev`       | Start local dev server at `localhost:4321`                      |
-| `pnpm run build`     | Build production site to `./dist/`                              |
-| `pnpm run preview`   | Preview a production build locally                               |
-| `pnpm run check`     | Run `astro check` (types/content schemas) + `prettier . --check` |
+| Command            | Action                                                           |
+| :----------------- | :--------------------------------------------------------------- |
+| `pnpm install`     | Install dependencies                                             |
+| `pnpm run dev`     | Start local dev server at `localhost:4321`                       |
+| `pnpm run build`   | Build production site to `./dist/`                               |
+| `pnpm run preview` | Preview a production build locally                               |
+| `pnpm run check`   | Run `astro check` (types/content schemas) + `prettier . --check` |
 
 There is no test suite. `pnpm run check` is the correctness gate — run it after any content or component change.
 

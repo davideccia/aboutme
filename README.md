@@ -27,13 +27,13 @@ The site is served at `localhost:4321`.
 
 Resume content lives under `src/content/`, not in `src/pages/index.astro` (that file holds layout and styling only).
 
-| Collection                     | Section     | Notes                                                                                                |
-| :------------------------------ | :---------- | :---------------------------------------------------------------------------------------------------- |
-| `src/content/work/`             | Experience  | Sorted by parsed `period.end` (reverse chronological); file name doesn't affect order.                |
-| `src/content/personal_projects/`| Projects → Personal | Sorted by file name — hence the `NN-slug.md` naming.                                        |
-| `src/content/copyright_projects/`| Projects → Copyright | Same schema and sorting as personal projects.                                             |
-| `src/content/summary.md`        | Summary     | Rendered directly as prose.                                                                          |
-| `src/content/data.ts`           | Header, Stack, Education | Contact info, skill badges (with a 1-5 proficiency level), and education entries.       |
+| Collection                        | Section                  | Notes                                                                                  |
+| :-------------------------------- | :----------------------- | :------------------------------------------------------------------------------------- |
+| `src/content/work/`               | Experience               | Sorted by parsed `period.end` (reverse chronological); file name doesn't affect order. |
+| `src/content/personal_projects/`  | Projects → Personal      | Sorted by file name — hence the `NN-slug.md` naming.                                   |
+| `src/content/copyright_projects/` | Projects → Copyright     | Same schema and sorting as personal projects.                                          |
+| `src/content/summary.md`          | Summary                  | Rendered directly as prose.                                                            |
+| `src/content/data.ts`             | Header, Stack, Education | Contact info, skill badges (with a 1-5 proficiency level), and education entries.      |
 
 > [!NOTE]
 > The `work` collection's `period` field (e.g. `"Oct 2024 - Present"`) must use a literal hyphen separator — it's parsed and validated into start/end dates for sorting. `Present` resolves to today's date.
@@ -50,13 +50,13 @@ This runs `astro check` (types and content schema validation) plus a Prettier fo
 
 ## Commands
 
-| Command             | Action                                                            |
-| :------------------- | :------------------------------------------------------------------ |
-| `pnpm install`       | Install dependencies                                               |
-| `pnpm run dev`       | Start the local dev server at `localhost:4321`                      |
-| `pnpm run build`     | Build the production site to `./dist/`                              |
-| `pnpm run preview`   | Preview a production build locally                                  |
-| `pnpm run check`     | Run `astro check` (types/content schemas) + `prettier . --check`    |
+| Command            | Action                                                           |
+| :----------------- | :--------------------------------------------------------------- |
+| `pnpm install`     | Install dependencies                                             |
+| `pnpm run dev`     | Start the local dev server at `localhost:4321`                   |
+| `pnpm run build`   | Build the production site to `./dist/`                           |
+| `pnpm run preview` | Preview a production build locally                               |
+| `pnpm run check`   | Run `astro check` (types/content schemas) + `prettier . --check` |
 
 There is no test suite; `pnpm run check` is the correctness gate.
 

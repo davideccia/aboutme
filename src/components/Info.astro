@@ -8,9 +8,12 @@ interface Props {
 
 const { href, iconName } = Astro.props;
 const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdiIconMap[iconName];
+
+// web links open in a new tab; mailto:/tel: stay as-is so they don't leave an empty tab behind
+const isWebLink = /^https?:\/\//.test(href);
 ---
 
-<a href={href}
+<a href={href} target={isWebLink ? '_blank' : undefined} rel={isWebLink ? 'noopener noreferrer' : undefined}
   ><div class="parent">
     {
       iconName === 'linkedin' ? (
@@ -33,8 +36,8 @@ const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdi
         <svg
           class:list={['info-component-icon', 'mdi-icon', iconName === 'github' && 'mdi-icon--github']}
           viewBox="0 0 24 24"
-          height={12}
-          width={12}
+          height={14}
+          width={14}
           aria-hidden="true"
         >
           <path d={iconPath} />
@@ -46,20 +49,16 @@ const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdi
 
 <style>
   .parent {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    gap: 0.4em;
   }
 
   .info-component-icon {
-    padding-right: var(--space-1, 0.25em);
+    flex: none;
   }
 
   .mdi-icon {
     fill: currentColor;
-  }
-
-  /* this isn't great but i didn't love the standard padding on the github logo icon */
-  .mdi-icon--github {
-    padding-right: 0.3em;
   }
 </style>

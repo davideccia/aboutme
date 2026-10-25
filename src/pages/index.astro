@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 
 import Info from '../components/Info.astro';
 import SkillBadge from '../components/SkillBadge.astro';
+import { openLinksInNewTab } from '../lib/external-links';
 import { Content as Summary } from '../content/summary.md';
 
 const personalProjects = (await getCollection('personal_projects'))
@@ -16,192 +17,185 @@ const copyrightProjects = (await getCollection('copyright_projects'))
   // sort by the file name
   .sort(({ id: a }, { id: b }) => (a < b ? -1 : a > b ? 1 : 0));
 
+const projectGroups = [
+  { title: 'Personal', projects: personalProjects },
+  { title: 'Copyright', projects: copyrightProjects },
+];
+
 const work = (await getCollection('work'))
   // sort the work experiences in reverse chronological order
   .sort((a, b) => b.data.period.end.valueOf() - a.data.period.end.valueOf())
   .map((role, i, arr) => ({
     ...role,
-    // render the company h3 heading if it’s the first role or if the role has a different company than the previous one
+    // render the company heading if it’s the first role or if the role has a different company than the previous one
     displayCompanyHeading: i === 0 || arr[i]?.data.company !== arr[i - 1]?.data.company,
+    isCurrent: /present$/i.test(role.data.period.raw.trim()),
   }));
 ---
 
 <html lang="en">
   <head>
     <title>{`Resume (${data.summary.name})`}</title>
-    <meta name="description" content=`The resume for ${data.summary.name}, a ${data.summary.title}` />
+    <meta name="description" content={`The resume for ${data.summary.name}, a ${data.summary.title}`} />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="https://fav.farm/📝" />
-    {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
-      <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID} />
-    )}
+    {
+      import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+        <script
+          is:inline
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+        />
+      )
+    }
   </head>
-  <main class="markdown-body">
-    <header class="resume__header">
-      <h1>{data.summary.name}</h1>
+  <body>
+    <main class="resume">
+      <header class="resume__header reveal" style="--i: 0">
+        <h1>{data.summary.name}<span class="resume__name-dot" aria-hidden="true">.</span></h1>
+        <p class="resume__title">{data.summary.title}</p>
 
-      <address>
-        <Info href={data.summary.location.href} iconName="map-marker">{data.summary.location.title}</Info>
-        { data.summary.phone ? <Info href=`tel:${data.summary.phone}` iconName="cellphone">{data.summary.phone}</Info> : null }
-        <Info href=`mailto:${data.summary.email}` iconName="email">{data.summary.email}</Info>
-        <Info href={data.summary.codeberg.href || 'https://codeberg.org'} iconName="codeberg"
-          >{data.summary.codeberg.title || 'Codeberg'}</Info
-        >
-        <Info href={data.summary.github.href || 'https://github.com'} iconName="github"
-          >{data.summary.github.title || 'GitHub'}</Info
-        >
-        <Info href={data.summary.linkedin.href || 'https://linkedin.com'} iconName="linkedin"
-          >{data.summary.linkedin.title || 'LinkedIn'}</Info
-        >
-      </address>
-    </header>
+        <address>
+          <Info href={data.summary.location.href} iconName="map-marker">{data.summary.location.title}</Info>
+          {
+            data.summary.phone ? (
+              <Info href={`tel:${data.summary.phone}`} iconName="cellphone">
+                {data.summary.phone}
+              </Info>
+            ) : null
+          }
+          <Info href={`mailto:${data.summary.email}`} iconName="email">{data.summary.email}</Info>
+          <Info href={data.summary.github.href || 'https://github.com'} iconName="github"
+            >{data.summary.github.title || 'GitHub'}</Info
+          >
+          <Info href={data.summary.codeberg.href || 'https://codeberg.org'} iconName="codeberg"
+            >{data.summary.codeberg.title || 'Codeberg'}</Info
+          >
+          <Info href={data.summary.linkedin.href || 'https://linkedin.com'} iconName="linkedin"
+            >{data.summary.linkedin.title || 'LinkedIn'}</Info
+          >
+        </address>
+      </header>
 
-    <section>
-      <h2>Summary</h2>
-      <Summary />
-    </section>
+      <section class="resume__section resume__summary reveal" style="--i: 1">
+        <h2>Summary</h2>
+        <div class="section__body prose">
+          <Summary />
+        </div>
+      </section>
 
-    <section class="resume__employment">
-      <h2>Experience</h2>
-      <dl>
-        {
-          work.map(job => (
-            <div class="employment__role">
-              {job.displayCompanyHeading && (
-                <h3>
-                  <span>{job.data.company}</span>
-                </h3>
-              )}
-              <dt>
+      <section class="resume__section resume__employment reveal" style="--i: 2">
+        <h2>Experience</h2>
+        <div class="section__body">
+          {
+            work.map(job => (
+              <article class:list={['role', job.isCurrent && 'role--current']}>
+                {job.displayCompanyHeading && <h3 class="role__company">{job.data.company}</h3>}
+                <div class="row">
+                  <strong class="role__title">{job.data.title}</strong>
+                  <time class="resume__period">{job.data.period.raw}</time>
+                </div>
+                <div class="prose" set:html={openLinksInNewTab(job.rendered?.html)} />
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="resume__section resume__stack reveal" style="--i: 3">
+        <h2>Stack</h2>
+        <div class="section__body">
+          <h3>Frameworks</h3>
+          <ul class="badges">
+            {
+              data.frameworksStack.map(skill => (
+                <li>
+                  <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
+                </li>
+              ))
+            }
+          </ul>
+          <h3>Technologies</h3>
+          <ul class="badges">
+            {
+              data.techonologiesStack.map(skill => (
+                <li>
+                  <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <section class="resume__section resume__projects reveal" style="--i: 4">
+        <h2>Projects</h2>
+        <div class="section__body">
+          {
+            projectGroups.map(group => (
+              <>
+                <h3>{group.title}</h3>
+                <div class="projects">
+                  {group.projects.map(project => (
+                    <article class="project">
+                      <Info href={project.data.link} iconName={project.data.icon}>
+                        <strong set:html={project.data.title} />
+                      </Info>
+                      <div class="prose project__description" set:html={openLinksInNewTab(project.rendered?.html)} />
+                      {project.data.stack?.length ? (
+                        <ul class="tags">
+                          {project.data.stack.map(skill => (
+                            <li>{skill}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </article>
+                  ))}
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="resume__section resume__education reveal" style="--i: 5">
+        <h2>Education</h2>
+        <ol class="section__body">
+          {
+            data.education.map(schooling => (
+              <li class="row">
                 <span>
-                  <strong>{job.data.title}</strong>
+                  <strong>{schooling.institution}</strong>, {schooling.description}
                 </span>
-
                 <span class="resume__period">
-                  <time>{job.data.period.raw}</time>
+                  {schooling.period[0]} - {schooling.period[1]}
                 </span>
-              </dt>
-              <dd set:html={job.rendered?.html} />
-            </div>
-          ))
-        }
-      </dl>
-    </section>
-
-    <section class="resume__stack">
-      <h2>Stack</h2>
-      <h3>Frameworks</h3>
-      <p>
-        {
-          data.frameworksStack.map(skill => (
-            <span class="skill__name">
-              <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
-            </span>
-          ))
-        }
-      </p>
-      <h3>Technologies</h3>
-      <p>
-        {
-          data.techonologiesStack.map(skill => (
-            <span class="skill__name">
-              <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
-            </span>
-          ))
-        }
-      </p>
-    </section>
-
-    <section class="resume__projects">
-      <h2>Projects</h2>
-      <h3>Personal</h3>
-      <dl>
-        {
-          personalProjects.map(project => (
-            <div>
-              <dt>
-                <span>
-                  <Info href={project.data.link} iconName={project.data.icon}>
-                    <strong set:html={project.data.title} />
-                  </Info>
-                </span>
-              </dt>
-              <dd>
-                <div class="project__description" set:html={project.rendered?.html} />
-                {project.data.stack?.length ? (
-                  <p>
-                    {project.data.stack.map(skill => (
-                      <span class="skill__name">
-                        <code>{skill}</code>
-                      </span>
-                    ))}
-                  </p>
-                ) : null}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-      <h3>Copyright</h3>
-      <dl>
-        {
-          copyrightProjects.map(project => (
-            <div>
-              <dt>
-                <span>
-                  <Info href={project.data.link} iconName={project.data.icon}>
-                    <strong set:html={project.data.title} />
-                  </Info>
-                </span>
-              </dt>
-              <dd>
-                <div class="project__description" set:html={project.rendered?.html} />
-                {project.data.stack?.length ? (
-                  <p>
-                    {project.data.stack.map(skill => (
-                      <span class="skill__name">
-                        <code>{skill}</code>
-                      </span>
-                    ))}
-                  </p>
-                ) : null}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-    </section>
-
-    <section class="resume__education">
-      <h2>Education</h2>
-      <ol>
-        {
-          data.education.map(schooling => (
-            <li>
-              <span class="edu__heading">
-                <strong>{schooling.institution}</strong>, {schooling.description}
-              </span>
-              <span class="resume__period">
-                {schooling.period[0]} - {schooling.period[1]}
-              </span>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-  </main>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+    </main>
+  </body>
 
   <style is:global>
     :root {
-      /* screen (dark) defaults; redefined for print below */
-      --color-bg: #0b0c0e;
-      --color-text: #e8e9ea;
-      --color-text-muted: #9a9ea4;
-      --color-text-subtle: #6d7076;
-      --color-border: #2a2d31;
-      --color-accent: #7ca6c7;
+      /* light on screen by default; dark via prefers-color-scheme; print always uses these light values */
+      --color-bg: #fafafa;
+      --color-surface: #f2f2f3;
+      --color-text: #18181b;
+      --color-text-muted: #52525b;
+      --color-text-subtle: #6b6b74;
+      --color-border: #e2e2e6;
+      --color-accent: #0f766e;
+      --color-accent-soft: rgb(15 118 110 / 0.1);
+
+      --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
       --radius-sm: 0.375rem;
       --space-1: 0.25rem;
@@ -212,38 +206,332 @@ const work = (await getCollection('work'))
       --space-6: 2rem;
       --space-7: 3rem;
 
+      --rail: 8.5rem;
       --page-margin: 0.75in;
-      --top-page-margin: 0.5in;
+
+      color-scheme: light;
     }
 
-    @media print {
+    @media screen and (prefers-color-scheme: dark) {
       :root {
-        --color-bg: #ffffff;
-        --color-text: #1b1c1e;
-        --color-text-muted: #55585e;
-        --color-text-subtle: #77797e;
-        --color-border: #d8d9db;
-        --color-accent: #3e6786;
+        --color-bg: #0e0e10;
+        --color-surface: #17171a;
+        --color-text: #e7e7ea;
+        --color-text-muted: #a3a3ab;
+        --color-text-subtle: #85858e;
+        --color-border: #2a2a2f;
+        --color-accent: #5ec2b3;
+        --color-accent-soft: rgb(94 194 179 / 0.12);
+
+        color-scheme: dark;
       }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
 
     html,
     body {
       margin: 0;
       background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    .markdown-body {
-      margin: var(--page-margin) auto var(--page-margin);
-      max-width: calc(8.5in - var(--page-margin) * 2);
-      font-family: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      font-size: 15px;
-      color: var(--color-text);
-      background-color: var(--color-bg);
+    /* zero-specificity reset so component classes below can set margins freely */
+    :where(.resume) :where(h1, h2, h3, p, ul, ol) {
+      margin: 0;
+    }
 
-      b,
+    .resume {
+      margin: var(--space-7) auto;
+      max-width: calc(8.5in - var(--page-margin) * 2);
+      font-size: 15px;
+      line-height: 1.55;
+
       strong {
-        font-weight: 650;
+        font-weight: 600;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    /* header */
+
+    .resume__header {
+      padding-bottom: var(--space-5);
+      margin-bottom: var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 680;
+        letter-spacing: -0.035em;
+        line-height: 1.05;
+      }
+
+      address {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2) var(--space-5);
+        margin-top: var(--space-4);
+        font-style: normal;
+        font-size: 0.9em;
+        color: var(--color-text-muted);
+      }
+    }
+
+    .resume__name-dot {
+      color: var(--color-accent);
+    }
+
+    .resume__title {
+      margin-top: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.95em;
+      color: var(--color-accent);
+    }
+
+    /* section rail: label on the left, content on the right */
+
+    .resume__section {
+      display: grid;
+      grid-template-columns: var(--rail) minmax(0, 1fr);
+      gap: var(--space-2) var(--space-6);
+      padding-block: var(--space-5);
+
+      h2 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        line-height: 1.6;
+      }
+
+      h3 {
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--color-text-subtle);
+      }
+    }
+
+    .section__body > h3:not(:first-child) {
+      margin-top: var(--space-5);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-1) var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .resume__period {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      color: var(--color-text-subtle);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* rendered markdown */
+
+    .prose {
+      color: var(--color-text-muted);
+
+      p + p {
+        margin-top: var(--space-2);
+      }
+
+      ul {
+        padding-inline-start: 1.1em;
+        margin-top: var(--space-1);
+      }
+
+      ul ul {
+        margin-top: 0;
+      }
+
+      li {
+        margin-top: 0.15em;
+      }
+
+      li::marker {
+        color: var(--color-text-subtle);
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.88em;
+      }
+    }
+
+    .resume__summary .prose {
+      font-size: 1.1em;
+      color: var(--color-text);
+      max-width: 52ch;
+    }
+
+    /* experience */
+
+    .role {
+      position: relative;
+      padding-left: var(--space-4);
+      border-left: 2px solid var(--color-border);
+      break-inside: avoid-page;
+    }
+
+    .role + .role {
+      margin-top: var(--space-5);
+    }
+
+    .role--current {
+      border-left-color: var(--color-accent);
+    }
+
+    .resume__section .role__company {
+      color: var(--color-text);
+      font-size: 1.05em;
+      margin-bottom: 0.1em;
+    }
+
+    .role__title {
+      font-weight: 500;
+    }
+
+    /* stack */
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+      padding: 0;
+      list-style: none;
+    }
+
+    /* projects */
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5) var(--space-6);
+      margin-top: var(--space-3);
+    }
+
+    .project {
+      break-inside: avoid-page;
+
+      .project__description {
+        margin-top: var(--space-1);
+        font-size: 0.92em;
+      }
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      margin-top: var(--space-2);
+      padding: 0;
+      list-style: none;
+
+      li {
+        padding: 0.05em 0.45em;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-mono);
+        font-size: 0.72em;
+        color: var(--color-text-muted);
+        white-space: nowrap;
+      }
+    }
+
+    /* education */
+
+    .resume__education {
+      break-inside: avoid-page;
+
+      ol {
+        padding: 0;
+        list-style: none;
+      }
+
+      li + li {
+        margin-top: var(--space-2);
+      }
+    }
+
+    /* links */
+
+    .resume a:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    @media screen {
+      .resume__header address a,
+      .project a {
+        text-decoration-line: underline;
+        text-decoration-color: transparent;
+        text-underline-offset: 0.2em;
+      }
+
+      .resume__header address a:hover,
+      .project a:hover {
+        color: var(--color-accent);
+        text-decoration-color: currentColor;
+      }
+    }
+
+    @media screen and (prefers-reduced-motion: no-preference) {
+      .resume__header address a,
+      .project a {
+        transition:
+          color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+          text-decoration-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* one-time staggered load-in, so the page reads top to bottom */
+      .reveal {
+        animation: reveal 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: calc(var(--i, 0) * 60ms);
+      }
+
+      @keyframes reveal {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+    }
+
+    /* small screens: drop the rail, stack everything */
+
+    @media screen and (width < 720px) {
+      .resume {
+        margin: var(--space-6) var(--space-4);
+      }
+
+      .resume__header h1 {
+        font-size: 2rem;
+      }
+
+      .resume__section {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .projects {
+        grid-template-columns: minmax(0, 1fr);
       }
     }
 
@@ -253,216 +541,34 @@ const work = (await getCollection('work'))
         size: 8.5in 11in;
       }
 
-      .markdown-body {
+      :root {
+        --rail: 1.1in;
+      }
+
+      html,
+      body {
+        background: #fff;
+      }
+
+      .resume {
         margin: 0;
         max-width: 100%;
-        font-size: 12px;
-      }
-    }
-
-    @media screen and (width < 8.5in) {
-      .markdown-body {
-        margin: 10vw 20px;
+        font-size: 10.5px;
       }
 
-      .markdown-body .resume__header address {
-        align-items: center;
-        flex-direction: column;
-        gap: 1em;
-      }
-    }
-
-    .resume__header {
-      border-bottom: 1px solid var(--color-border);
-      padding-bottom: var(--space-4);
-      margin-bottom: var(--space-5);
-
-      h1 {
-        text-align: center;
-        margin-top: 0px;
+      .resume__header {
         margin-bottom: var(--space-3);
-        font-weight: 650;
       }
 
-      address {
-        display: flex;
-        justify-content: center;
-        font-style: normal;
-        gap: var(--space-5);
-      }
-    }
-
-    .markdown-body h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-top: var(--space-6);
-      margin-bottom: var(--space-3);
-    }
-
-    .markdown-body dl dt {
-      margin-top: var(--space-2);
-    }
-
-    .resume__stack {
-      h3 {
-        font-size: 0.85em;
-        font-weight: 600;
-        color: var(--color-text-muted);
+      .resume__section {
+        padding-block: var(--space-3);
       }
 
-      ul {
-        list-style: none;
-        padding-inline-start: 0px;
-      }
-
-      p {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2) var(--space-3);
-      }
-    }
-
-    .skill__name {
-      font-size: 0.95em;
-      code {
-        text-wrap-mode: nowrap;
-      }
-    }
-
-    .resume__employment {
-      h3 {
-        margin-top: var(--space-6);
-      }
-
-      .employment__role {
-        margin-top: var(--space-4);
-        padding-left: var(--space-3);
-        border-left: 2px solid var(--color-border);
-      }
-
-      dl dt {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: var(--space-3);
-        flex-wrap: wrap;
-      }
-
-      dd {
-        li {
-          position: relative;
-          list-style: none;
-          margin-top: 0.25em;
-        }
-
-        li:before {
-          position: absolute;
-          color: var(--color-text-subtle);
-          content: '•';
-          left: -0.75em;
-        }
-      }
-
-      dd > ul {
-        /* necessary b/c we need to unset gfm padding for 1st level lists */
-        padding-inline-start: 0em;
-      }
-
-      ul {
-        /* necessary b/c we need to re-add some padding for >2nd level lists */
-        padding-inline-start: 1em;
-      }
-    }
-
-    .resume__period {
-      font-style: italic;
-      font-weight: 450;
-      color: var(--color-text-subtle);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .resume__employment .employment__role,
-    .resume__projects,
-    .resume__education {
-      break-inside: avoid-page;
-    }
-
-    .resume__employment,
-    .resume__projects {
-      dl dt {
-        /* necessary b/c gfm has styles we want to unset */
-        font-style: normal;
-      }
-    }
-
-    .resume__projects {
-      dl dd {
-        padding-left: 0;
-      }
-
-      .project__description p {
-        margin-bottom: 0.125em;
-      }
-
-      .skill__name code {
-        background: transparent;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-sm);
-        padding: 0.05em 0.4em;
-        font-size: 0.85em;
-        color: var(--color-text-muted);
-      }
-    }
-
-    .resume__education {
-      ol {
-        padding-inline-start: 0px;
-        list-style: none;
-      }
-
-      li {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: var(--space-3);
-        flex-wrap: wrap;
-      }
-    }
-
-    .markdown-body a {
-      text-decoration: none;
-    }
-
-    @media print {
-      .markdown-body a {
-        text-decoration: underline !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .resume__header address a,
-      .resume__projects a {
-        transition:
-          color 140ms ease-out,
-          opacity 140ms ease-out,
-          transform 140ms ease-out;
-      }
-
-      .resume__header address a:hover,
-      .resume__projects a:hover {
-        color: var(--color-accent);
-        transform: translateY(-1px);
-      }
-    }
-
-    @media screen {
-      .resume__header address a:hover,
-      .resume__projects a:hover {
+      .resume a {
         text-decoration: underline;
+        text-decoration-color: var(--color-border);
+        text-underline-offset: 0.2em;
       }
     }
   </style>
-
-
 </html>
