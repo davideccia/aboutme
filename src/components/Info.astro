@@ -1,49 +1,48 @@
 ---
-import { mdiIconMap, type MdiIconName } from '../lib/mdi-icons';
+import { mdiIconMap, type MdiIconName } from '../lib/mdi-icons'
 
 interface Props {
-  href: string;
-  iconName: MdiIconName | 'linkedin' | 'codeberg';
+  href: string
+  iconName: MdiIconName | 'linkedin' | 'codeberg'
 }
 
-const { href, iconName } = Astro.props;
-const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdiIconMap[iconName];
+const { href, iconName } = Astro.props
+const iconPath = iconName === 'linkedin' || iconName === 'codeberg' ? null : mdiIconMap[iconName]
 
 // web links open in a new tab; mailto:/tel: stay as-is so they don't leave an empty tab behind
-const isWebLink = /^https?:\/\//.test(href);
+const isWebLink = /^https?:\/\//.test(href)
 ---
 
-<a href={href} target={isWebLink ? '_blank' : undefined} rel={isWebLink ? 'noopener noreferrer' : undefined}
-  ><div class="parent">
-    {
-      iconName === 'linkedin' ? (
-        <img
-          src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/linkedin.svg"
-          aria-hidden="true"
-          class="info-component-icon linkedin"
-          height={14}
-          width={14}
-        />
-      ) : iconName === 'codeberg' ? (
-        <img
-          src="https://cdn.simpleicons.org/codeberg"
-          aria-hidden="true"
-          class="info-component-icon codeberg"
-          height={14}
-          width={14}
-        />
-      ) : (
-        <svg
-          class:list={['info-component-icon', 'mdi-icon', iconName === 'github' && 'mdi-icon--github']}
-          viewBox="0 0 24 24"
-          height={14}
-          width={14}
-          aria-hidden="true"
-        >
-          <path d={iconPath} />
-        </svg>
-      )
-    }<slot />
+<a href={href} target={isWebLink ? '_blank' : undefined} rel={isWebLink ? 'noopener noreferrer' : undefined}>
+  <div class="parent">
+    {iconName === 'linkedin' ? (
+      <img
+        src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/linkedin.svg"
+        aria-hidden="true"
+        class="info-component-icon linkedin"
+        height={14}
+        width={14}
+      />
+    ) : iconName === 'codeberg' ? (
+      <img
+        src="https://cdn.simpleicons.org/codeberg"
+        aria-hidden="true"
+        class="info-component-icon codeberg"
+        height={14}
+        width={14}
+      />
+    ) : (
+      <svg
+        class:list={['info-component-icon', 'mdi-icon', iconName === 'github' && 'mdi-icon--github']}
+        viewBox="0 0 24 24"
+        height={14}
+        width={14}
+        aria-hidden="true"
+      >
+        <path d={iconPath} />
+      </svg>
+    )}
+    <slot />
   </div>
 </a>
 

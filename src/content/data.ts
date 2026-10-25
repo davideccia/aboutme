@@ -1,37 +1,37 @@
-type Summary = {
-  name: string;
-  email: string;
+interface Summary {
+  name: string
+  email: string
   linkedin: {
-    title: string;
-    href: string;
-  };
+    title: string
+    href: string
+  }
   codeberg: {
-    title: string;
-    href: string;
-  };
+    title: string
+    href: string
+  }
   github: {
-    title: string;
-    href: string;
-  };
+    title: string
+    href: string
+  }
   location: {
-    title: string;
-    href: string;
-  };
-  phone: string | null;
-  title: string;
-};
+    title: string
+    href: string
+  }
+  phone: string | null
+  title: string
+}
 
-type StackItem = {
-  name: string;
-  icon: string;
-  level: number;
-};
+interface StackItem {
+  name: string
+  icon: string
+  level: number
+}
 
-type Education = {
-  period: [string, string];
-  institution: string;
-  description: string;
-};
+interface Education {
+  period: [string, string]
+  institution: string
+  description: string
+}
 
 const all = {
   summary: {
@@ -88,10 +88,10 @@ const all = {
     },
   ],
 } as const satisfies {
-  summary: Summary;
-  frameworksStack: StackItem[];
-  techonologiesStack: StackItem[];
-  education: Education[];
-};
+  summary: Summary
+  frameworksStack: StackItem[]
+  techonologiesStack: StackItem[]
+  education: Education[]
+}
 
-export default all;
+export default all

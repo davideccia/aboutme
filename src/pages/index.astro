@@ -1,26 +1,26 @@
 ---
-import '../styles/theme.css';
+import '../styles/theme.css'
 
-import data from '../content/data';
-import { getCollection } from 'astro:content';
+import data from '../content/data'
+import { getCollection } from 'astro:content'
 
-import Info from '../components/Info.astro';
-import SkillBadge from '../components/SkillBadge.astro';
-import { openLinksInNewTab } from '../lib/external-links';
-import { Content as Summary } from '../content/summary.md';
+import Info from '../components/Info.astro'
+import SkillBadge from '../components/SkillBadge.astro'
+import { openLinksInNewTab } from '../lib/external-links'
+import { Content as Summary } from '../content/summary.md'
 
 const personalProjects = (await getCollection('personal_projects'))
   // sort by the file name
-  .sort(({ id: a }, { id: b }) => (a < b ? -1 : a > b ? 1 : 0));
+  .sort(({ id: a }, { id: b }) => (a < b ? -1 : a > b ? 1 : 0))
 
 const copyrightProjects = (await getCollection('copyright_projects'))
   // sort by the file name
-  .sort(({ id: a }, { id: b }) => (a < b ? -1 : a > b ? 1 : 0));
+  .sort(({ id: a }, { id: b }) => (a < b ? -1 : a > b ? 1 : 0))
 
 const projectGroups = [
   { title: 'Personal', projects: personalProjects },
   { title: 'Copyright', projects: copyrightProjects },
-];
+]
 
 const work = (await getCollection('work'))
   // sort the work experiences in reverse chronological order
@@ -30,7 +30,7 @@ const work = (await getCollection('work'))
     // render the company heading if it’s the first role or if the role has a different company than the previous one
     displayCompanyHeading: i === 0 || arr[i]?.data.company !== arr[i - 1]?.data.company,
     isCurrent: /present$/i.test(role.data.period.raw.trim()),
-  }));
+  }))
 ---
 
 <html lang="en">
@@ -42,42 +42,47 @@ const work = (await getCollection('work'))
     <meta name="robots" content="noindex" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="https://fav.farm/📝" />
-    {
-      import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
-        <script
-          is:inline
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
-        />
-      )
-    }
+    {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+      <script
+        is:inline
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+      />
+    )}
   </head>
   <body>
     <main class="resume">
       <header class="resume__header reveal" style="--i: 0">
-        <h1>{data.summary.name}<span class="resume__name-dot" aria-hidden="true">.</span></h1>
+        <h1>
+          {data.summary.name}
+          <span class="resume__name-dot" aria-hidden="true">
+            .
+          </span>
+        </h1>
         <p class="resume__title">{data.summary.title}</p>
 
         <address>
-          <Info href={data.summary.location.href} iconName="map-marker">{data.summary.location.title}</Info>
-          {
-            data.summary.phone ? (
-              <Info href={`tel:${data.summary.phone}`} iconName="cellphone">
-                {data.summary.phone}
-              </Info>
-            ) : null
-          }
-          <Info href={`mailto:${data.summary.email}`} iconName="email">{data.summary.email}</Info>
-          <Info href={data.summary.github.href || 'https://github.com'} iconName="github"
-            >{data.summary.github.title || 'GitHub'}</Info
-          >
-          <Info href={data.summary.codeberg.href || 'https://codeberg.org'} iconName="codeberg"
-            >{data.summary.codeberg.title || 'Codeberg'}</Info
-          >
-          <Info href={data.summary.linkedin.href || 'https://linkedin.com'} iconName="linkedin"
-            >{data.summary.linkedin.title || 'LinkedIn'}</Info
-          >
+          <Info href={data.summary.location.href} iconName="map-marker">
+            {data.summary.location.title}
+          </Info>
+          {data.summary.phone ? (
+            <Info href={`tel:${data.summary.phone}`} iconName="cellphone">
+              {data.summary.phone}
+            </Info>
+          ) : null}
+          <Info href={`mailto:${data.summary.email}`} iconName="email">
+            {data.summary.email}
+          </Info>
+          <Info href={data.summary.github.href || 'https://github.com'} iconName="github">
+            {data.summary.github.title || 'GitHub'}
+          </Info>
+          <Info href={data.summary.codeberg.href || 'https://codeberg.org'} iconName="codeberg">
+            {data.summary.codeberg.title || 'Codeberg'}
+          </Info>
+          <Info href={data.summary.linkedin.href || 'https://linkedin.com'} iconName="linkedin">
+            {data.summary.linkedin.title || 'LinkedIn'}
+          </Info>
         </address>
       </header>
 
@@ -91,18 +96,16 @@ const work = (await getCollection('work'))
       <section class="resume__section resume__employment reveal" style="--i: 2">
         <h2>Experience</h2>
         <div class="section__body">
-          {
-            work.map(job => (
-              <article class:list={['role', job.isCurrent && 'role--current']}>
-                {job.displayCompanyHeading && <h3 class="role__company">{job.data.company}</h3>}
-                <div class="row">
-                  <strong class="role__title">{job.data.title}</strong>
-                  <time class="resume__period">{job.data.period.raw}</time>
-                </div>
-                <div class="prose" set:html={openLinksInNewTab(job.rendered?.html)} />
-              </article>
-            ))
-          }
+          {work.map((job) => (
+            <article class:list={['role', job.isCurrent && 'role--current']}>
+              {job.displayCompanyHeading && <h3 class="role__company">{job.data.company}</h3>}
+              <div class="row">
+                <strong class="role__title">{job.data.title}</strong>
+                <time class="resume__period">{job.data.period.raw}</time>
+              </div>
+              <div class="prose" set:html={openLinksInNewTab(job.rendered?.html)} />
+            </article>
+          ))}
         </div>
       </section>
 
@@ -111,23 +114,19 @@ const work = (await getCollection('work'))
         <div class="section__body">
           <h3>Frameworks</h3>
           <ul class="badges">
-            {
-              data.frameworksStack.map(skill => (
-                <li>
-                  <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
-                </li>
-              ))
-            }
+            {data.frameworksStack.map((skill) => (
+              <li>
+                <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
+              </li>
+            ))}
           </ul>
           <h3>Technologies</h3>
           <ul class="badges">
-            {
-              data.techonologiesStack.map(skill => (
-                <li>
-                  <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
-                </li>
-              ))
-            }
+            {data.techonologiesStack.map((skill) => (
+              <li>
+                <SkillBadge name={skill.name} iconUrl={skill.icon} level={skill.level} />
+              </li>
+            ))}
           </ul>
         </div>
       </section>
@@ -135,48 +134,44 @@ const work = (await getCollection('work'))
       <section class="resume__section resume__projects reveal" style="--i: 4">
         <h2>Projects</h2>
         <div class="section__body">
-          {
-            projectGroups.map(group => (
-              <>
-                <h3>{group.title}</h3>
-                <div class="projects">
-                  {group.projects.map(project => (
-                    <article class="project">
-                      <Info href={project.data.link} iconName={project.data.icon}>
-                        <strong set:html={project.data.title} />
-                      </Info>
-                      <div class="prose project__description" set:html={openLinksInNewTab(project.rendered?.html)} />
-                      {project.data.stack?.length ? (
-                        <ul class="tags">
-                          {project.data.stack.map(skill => (
-                            <li>{skill}</li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </article>
-                  ))}
-                </div>
-              </>
-            ))
-          }
+          {projectGroups.map((group) => (
+            <>
+              <h3>{group.title}</h3>
+              <div class="projects">
+                {group.projects.map((project) => (
+                  <article class="project">
+                    <Info href={project.data.link} iconName={project.data.icon}>
+                      <strong set:html={project.data.title} />
+                    </Info>
+                    <div class="prose project__description" set:html={openLinksInNewTab(project.rendered?.html)} />
+                    {project.data.stack?.length ? (
+                      <ul class="tags">
+                        {project.data.stack.map((skill) => (
+                          <li>{skill}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </>
+          ))}
         </div>
       </section>
 
       <section class="resume__section resume__education reveal" style="--i: 5">
         <h2>Education</h2>
         <ol class="section__body">
-          {
-            data.education.map(schooling => (
-              <li class="row">
-                <span>
-                  <strong>{schooling.institution}</strong>, {schooling.description}
-                </span>
-                <span class="resume__period">
-                  {schooling.period[0]} - {schooling.period[1]}
-                </span>
-              </li>
-            ))
-          }
+          {data.education.map((schooling) => (
+            <li class="row">
+              <span>
+                <strong>{schooling.institution}</strong>, {schooling.description}
+              </span>
+              <span class="resume__period">
+                {schooling.period[0]} - {schooling.period[1]}
+              </span>
+            </li>
+          ))}
         </ol>
       </section>
     </main>

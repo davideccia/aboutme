@@ -46,17 +46,19 @@ After editing content, run:
 pnpm run check
 ```
 
-This runs `astro check` (types and content schema validation) plus a Prettier format check — it's the correctness gate for any content or component change.
+This runs `astro check` (types and content schema validation) plus ESLint (lint + formatting via `@antfu/eslint-config`) — it's the correctness gate for any content or component change.
 
 ## Commands
 
-| Command            | Action                                                           |
-| :----------------- | :--------------------------------------------------------------- |
-| `pnpm install`     | Install dependencies                                             |
-| `pnpm run dev`     | Start the local dev server at `localhost:4321`                   |
-| `pnpm run build`   | Build the production site to `./dist/`                           |
-| `pnpm run preview` | Preview a production build locally                               |
-| `pnpm run check`   | Run `astro check` (types/content schemas) + `prettier . --check` |
+| Command             | Action                                                 |
+| :------------------ | :----------------------------------------------------- |
+| `pnpm install`      | Install dependencies                                   |
+| `pnpm run dev`      | Start the local dev server at `localhost:4321`         |
+| `pnpm run build`    | Build the production site to `./dist/`                 |
+| `pnpm run preview`  | Preview a production build locally                     |
+| `pnpm run check`    | Run `astro check` (types/content schemas) + `eslint .` |
+| `pnpm run lint`     | Run ESLint                                             |
+| `pnpm run lint:fix` | Run ESLint with autofix (formatting included)          |
 
 There is no test suite; `pnpm run check` is the correctness gate.
 
